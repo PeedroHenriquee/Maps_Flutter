@@ -1,9 +1,11 @@
 import 'package:app/views/aeroporto_page.dart';
 import 'package:app/views/cinema_page.dart';
+import 'package:app/views/contato.dart';
 import 'package:app/views/estadio_page.dart';
 import 'package:app/views/hoteis_page.dart';
 import 'package:app/views/p_turistico_page.dart';
 import 'package:app/views/restaurante_page.dart';
+import 'package:app/views/sobre.dart';
 import 'package:app/views/teatro_page.dart';
 import 'package:app/widgets/menu_item.dart';
 import 'package:flutter/material.dart';
@@ -20,10 +22,86 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _selectedIndex = 0;
+  TextEditingController _searchController = TextEditingController();
+  List<Map<String, String>> _items = [
+    {
+      'label': 'Shoppings',
+      'iconPath': 'images/travel.png',
+      'page': 'ShoppingPage'
+    },
+    {'label': 'Cinemas', 'iconPath': 'images/cinema.png', 'page': 'CinemaPage'},
+    {
+      'label': 'Estadios',
+      'iconPath': 'images/futebol.png',
+      'page': 'MapSample'
+    },
+    {'label': 'Hotéis', 'iconPath': 'images/hoteis.png', 'page': 'HotelPage'},
+    {
+      'label': 'Restaurantes',
+      'iconPath': 'images/restaurantes.png',
+      'page': 'RestaurantePage'
+    },
+    {
+      'label': 'Aeroportos',
+      'iconPath': 'images/aviao.png',
+      'page': 'AeroportoPage'
+    },
+    {
+      'label': 'Pontos Turisticos',
+      'iconPath': 'images/pontes.png',
+      'page': 'TuristicoPage'
+    },
+    {'label': 'Teatros', 'iconPath': 'images/teatro.png', 'page': 'TeatroPage'},
+  ];
+  late List<Map<String, String>> _filteredItems;
+
+  @override
+  void initState() {
+    super.initState();
+    _filteredItems = _items;
+  }
 
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
+      if (index == 0) {
+        _filteredItems = _items;
+      }
+      if (index == 1) {
+        _showSearchDialog();
+      }
+    });
+  }
+
+  void _showSearchDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Search'),
+          content: TextField(
+            controller: _searchController,
+            decoration: InputDecoration(hintText: "Search..."),
+            onChanged: _filterItems,
+          ),
+          actions: [
+            TextButton(
+              child: Text('Close'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _filterItems(String query) {
+    setState(() {
+      _filteredItems = _items.where((item) {
+        return item['label']!.toLowerCase().contains(query.toLowerCase());
+      }).toList();
     });
   }
 
@@ -38,8 +116,8 @@ class _MyHomePageState extends State<MyHomePage> {
             const SizedBox(width: 10),
             Image.asset(
               'images/turista.png',
-              width: 40,
-              height: 40,
+              width: 20,
+              height: 20,
             ),
           ],
         ),
@@ -66,6 +144,7 @@ class _MyHomePageState extends State<MyHomePage> {
               onTap: () {
                 // Navegação para a tela Home
                 Navigator.pop(context);
+                _onItemTapped(0);
               },
             ),
             ListTile(
@@ -73,7 +152,12 @@ class _MyHomePageState extends State<MyHomePage> {
               title: const Text('Sobre'),
               onTap: () {
                 // Navegação para a tela Sobre
-                Navigator.pop(context);
+          
+                Navigator.pop(context); // Fecha o drawer
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => SobrePage()),
+                );
               },
             ),
             ListTile(
@@ -81,7 +165,11 @@ class _MyHomePageState extends State<MyHomePage> {
               title: const Text('Contato'),
               onTap: () {
                 // Navegação para a tela Contato
-                Navigator.pop(context);
+                Navigator.pop(context); // Fecha o drawer
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => ContatoPage()),
+                );
               },
             ),
           ],
@@ -90,110 +178,42 @@ class _MyHomePageState extends State<MyHomePage> {
       body: GridView.count(
         crossAxisCount: 2,
         padding: const EdgeInsets.all(16.0),
-        children: [
-          Padding(
+        children: _filteredItems.map((item) {
+          return Padding(
             padding: const EdgeInsets.all(8.0),
             child: MenuItem(
-              iconPath: 'images/travel.png',
-              label: 'Shoppings',
+              iconPath: item['iconPath']!,
+              label: item['label']!,
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => ShoppingPage()),
+                  MaterialPageRoute(builder: (context) {
+                    switch (item['page']) {
+                      case 'ShoppingPage':
+                        return ShoppingPage();
+                      case 'CinemaPage':
+                        return CinemaPage();
+                      case 'MapSample':
+                        return MapSample();
+                      case 'HotelPage':
+                        return HotelPage();
+                      case 'RestaurantePage':
+                        return RestaurantePage();
+                      case 'AeroportoPage':
+                        return AeroportoPage();
+                      case 'TuristicoPage':
+                        return TuristicoPage();
+                      case 'TeatroPage':
+                        return TeatroPage();
+                      default:
+                        return Container();
+                    }
+                  }),
                 );
               },
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: MenuItem(
-              iconPath: 'images/cinema.png',
-              label: 'Cinemas',
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => CinemaPage()),
-                );
-              },
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: MenuItem(
-              iconPath: 'images/futebol.png',
-              label: 'Estadios',
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => MapSample()),
-                );
-              },
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: MenuItem(
-              iconPath: 'images/hoteis.png',
-              label: 'Hotéis',
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => HotelPage()),
-                );
-              },
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: MenuItem(
-              iconPath: 'images/restaurantes.png',
-              label: 'Restaurantes',
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => RestaurantePage()),
-                );
-              },
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: MenuItem(
-              iconPath: 'images/aviao.png',
-              label: 'Aeroportos',
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => AeroportoPage()),
-                );
-              },
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: MenuItem(
-              iconPath: 'images/pontes.png',
-              label: 'Pontos Turisticos',
-              onTap: () {Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) =>TuristicoPage()),
-                );},
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: MenuItem(
-              iconPath: 'images/teatro.png',
-              label: 'Teatros',
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => TeatroPage()),
-                );
-              },
-            ),
-          ),
-        ],
+          );
+        }).toList(),
       ),
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
