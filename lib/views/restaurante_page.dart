@@ -3,61 +3,78 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class RestaurantePage extends StatefulWidget {
+  const RestaurantePage({super.key});
+
   @override
-  _RestaurantePageState createState() => _RestaurantePageState();
+  State<RestaurantePage> createState() => RestaurantePageState();
 }
 
-class _RestaurantePageState extends State<RestaurantePage> {
-  Completer<GoogleMapController> _controller = Completer();
+class RestaurantePageState extends State<RestaurantePage> {
+  final Completer<GoogleMapController> _controller =
+      Completer<GoogleMapController>();
 
-  // Exemplo de dados dos restaurantes em Teresina
-  List<Map<String, dynamic>> restaurantes = [
-    {
-      'nome': 'Restaurante A',
-      'latitude': -5.088,
-      'longitude': -42.801,
-    },
-    {
-      'nome': 'Restaurante B',
-      'latitude': -5.09,
-      'longitude': -42.796,
-    },
-    // Adicione mais restaurantes conforme necessário
+  static const CameraPosition _kGooglePlex = CameraPosition(
+    target: LatLng(-5.0892, -42.8016),
+    zoom: 14.4746,
+  );
+
+  static const CameraPosition _kLake = CameraPosition(
+    bearing: 192.8334901395799,
+    target: LatLng(-5.0892, -42.8016),
+    tilt: 59.440717697143555,
+    zoom: 19.151926040649414,
+  );
+
+  final List<Marker> _markers = <Marker>[
+    Marker(
+      markerId: MarkerId('albertao'),
+      position: LatLng(-5.1133787, -42.7936924),
+      infoWindow: InfoWindow(
+        title: 'Estádio Albertão',
+        snippet: 'Estádio Governador Alberto Tavares Silva',
+      ),
+    ),
+    Marker(
+      markerId: MarkerId('lindolfo'),
+      position: LatLng(-5.0890, -42.8010),
+      infoWindow: InfoWindow(
+        title: 'Estádio Lindolfo Monteiro',
+        snippet: 'Estádio Municipal Lindolfo Monteiro',
+      ),
+    ),
   ];
-
-  Set<Marker> _markers = Set();
-
-  @override
-  void initState() {
-    super.initState();
-    // Criar marcadores para cada restaurante
-    _markers = restaurantes.map((restaurante) {
-      return Marker(
-        markerId: MarkerId(restaurante['nome']),
-        position: LatLng(restaurante['latitude'], restaurante['longitude']),
-        infoWindow: InfoWindow(
-          title: restaurante['nome'],
-        ),
-      );
-    }).toSet();
-  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Restaurantes em Teresina'),
-      ),
-      body: GoogleMap(
-        initialCameraPosition: CameraPosition(
-          target: LatLng(-5.0892, -42.8015), // Posição inicial do mapa (centro de Teresina)
-          zoom: 12,
-        ),
-        markers: _markers,
-        onMapCreated: (GoogleMapController controller) {
-          _controller.complete(controller);
-        },
+      body: Stack(
+        children: [
+          GoogleMap(
+            mapType: MapType.hybrid,
+            initialCameraPosition: _kGooglePlex,
+            onMapCreated: (GoogleMapController controller) {
+              _controller.complete(controller);
+            },
+            markers: Set<Marker>.of(_markers),
+          ),
+          Align(
+            alignment: Alignment.bottomLeft,
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: FloatingActionButton.extended(
+                onPressed: _goToTheLake,
+                label: const Text('To Teresina!'),
+                icon: const Icon(Icons.directions_boat),
+              ),
+            ),
+          ),
+        ],
       ),
     );
+  }
+
+  Future<void> _goToTheLake() async {
+    final GoogleMapController controller = await _controller.future;
+    await controller.animateCamera(CameraUpdate.newCameraPosition(_kLake));
   }
 }

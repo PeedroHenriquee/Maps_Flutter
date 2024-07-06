@@ -3,56 +3,79 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class AeroportoPage extends StatefulWidget {
+  const AeroportoPage({super.key});
+
   @override
-  _AeroportoPageState createState() => _AeroportoPageState();
+  State<AeroportoPage> createState() => _AeroportoPageState();
 }
 
+
 class _AeroportoPageState extends State<AeroportoPage> {
-  Completer<GoogleMapController> _controller = Completer();
+  final Completer<GoogleMapController> _controller =
+      Completer<GoogleMapController>();
 
-  // Exemplo de dados dos aeroportos em Teresina
-  List<Map<String, dynamic>> aeroportos = [
-    {
-      'nome': 'Aeroporto de Teresina/Senador Petrônio Portella',
-      'latitude': -5.061341,
-      'longitude': -42.820557,
-    },
-    // Adicione mais aeroportos conforme necessário
+  static const CameraPosition _kGooglePlex = CameraPosition(
+    target: LatLng(-5.0892, -42.8016),
+    zoom: 14.4746,
+  );
+
+  static const CameraPosition _kLake = CameraPosition(
+    bearing: 192.8334901395799,
+    target: LatLng(-5.0892, -42.8016),
+    tilt: 59.440717697143555,
+    zoom: 19.151926040649414,
+  );
+
+  final List<Marker> _markers = <Marker>[
+    Marker(
+      markerId: MarkerId('albertao'),
+      position: LatLng(-5.1133787, -42.7936924),
+      infoWindow: InfoWindow(
+        title: 'Estádio Albertão',
+        snippet: 'Estádio Governador Alberto Tavares Silva',
+      ),
+    ),
+    Marker(
+      markerId: MarkerId('lindolfo'),
+      position: LatLng(-5.0890, -42.8010),
+      infoWindow: InfoWindow(
+        title: 'Estádio Lindolfo Monteiro',
+        snippet: 'Estádio Municipal Lindolfo Monteiro',
+      ),
+    ),
   ];
-
-  Set<Marker> _markers = Set();
-
-  @override
-  void initState() {
-    super.initState();
-    // Criar marcadores para cada aeroporto
-    _markers = aeroportos.map((aeroporto) {
-      return Marker(
-        markerId: MarkerId(aeroporto['nome']),
-        position: LatLng(aeroporto['latitude'], aeroporto['longitude']),
-        infoWindow: InfoWindow(
-          title: aeroporto['nome'],
-        ),
-      );
-    }).toSet();
-  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Aeroportos em Teresina'),
-      ),
-      body: GoogleMap(
-        initialCameraPosition: CameraPosition(
-          target: LatLng(-5.0892, -42.8015), // Posição inicial do mapa (centro de Teresina)
-          zoom: 12,
-        ),
-        markers: _markers,
-        onMapCreated: (GoogleMapController controller) {
-          _controller.complete(controller);
-        },
+      body: Stack(
+        children: [
+          GoogleMap(
+            mapType: MapType.hybrid,
+            initialCameraPosition: _kGooglePlex,
+            onMapCreated: (GoogleMapController controller) {
+              _controller.complete(controller);
+            },
+            markers: Set<Marker>.of(_markers),
+          ),
+          Align(
+            alignment: Alignment.bottomLeft,
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: FloatingActionButton.extended(
+                onPressed: _goToTheLake,
+                label: const Text('To Teresina!'),
+                icon: const Icon(Icons.directions_boat),
+              ),
+            ),
+          ),
+        ],
       ),
     );
+  }
+
+  Future<void> _goToTheLake() async {
+    final GoogleMapController controller = await _controller.future;
+    await controller.animateCamera(CameraUpdate.newCameraPosition(_kLake));
   }
 }

@@ -14,30 +14,61 @@ class MapSampleState extends State<MapSample> {
       Completer<GoogleMapController>();
 
   static const CameraPosition _kGooglePlex = CameraPosition(
-    target: LatLng(37.42796133580664, -122.085749655962),
+    target: LatLng(-5.0892, -42.8016),
     zoom: 14.4746,
   );
 
   static const CameraPosition _kLake = CameraPosition(
-      bearing: 192.8334901395799,
-      target: LatLng(37.43296265331129, -122.08832357078792),
-      tilt: 59.440717697143555,
-      zoom: 19.151926040649414);
+    bearing: 192.8334901395799,
+    target: LatLng(-5.0892, -42.8016),
+    tilt: 59.440717697143555,
+    zoom: 19.151926040649414,
+  );
+
+  final List<Marker> _markers = <Marker>[
+    Marker(
+      markerId: MarkerId('albertao'),
+      position: LatLng(-5.1133787, -42.7936924),
+      infoWindow: InfoWindow(
+        title: 'Estádio Albertão',
+        snippet: 'Estádio Governador Alberto Tavares Silva',
+      ),
+    ),
+    Marker(
+      markerId: MarkerId('lindolfo'),
+      position: LatLng(-5.0890, -42.8010),
+      infoWindow: InfoWindow(
+        title: 'Estádio Lindolfo Monteiro',
+        snippet: 'Estádio Municipal Lindolfo Monteiro',
+      ),
+    ),
+  ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: GoogleMap(
-        mapType: MapType.hybrid,
-        initialCameraPosition: _kGooglePlex,
-        onMapCreated: (GoogleMapController controller) {
-          _controller.complete(controller);
-        },
-      ),
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: _goToTheLake,
-        label: const Text('To the lake!'),
-        icon: const Icon(Icons.directions_boat),
+      body: Stack(
+        children: [
+          GoogleMap(
+            mapType: MapType.hybrid,
+            initialCameraPosition: _kGooglePlex,
+            onMapCreated: (GoogleMapController controller) {
+              _controller.complete(controller);
+            },
+            markers: Set<Marker>.of(_markers),
+          ),
+          Align(
+            alignment: Alignment.bottomLeft,
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: FloatingActionButton.extended(
+                onPressed: _goToTheLake,
+                label: const Text('To Teresina!'),
+                icon: const Icon(Icons.directions_boat),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
