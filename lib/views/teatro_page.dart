@@ -27,19 +27,17 @@ class TeatroPageState extends State<TeatroPage> {
 
   final List<Marker> _markers = <Marker>[
     Marker(
-      markerId: MarkerId('albertao'),
-      position: LatLng(-5.1133787, -42.7936924),
+      markerId: MarkerId('Teatro 4 de setembro'),
+      position: LatLng(-5.090743549478683, -42.811667827573075),
       infoWindow: InfoWindow(
-        title: 'Estádio Albertão',
-        snippet: 'Estádio Governador Alberto Tavares Silva',
+        title: 'Teatro 4 de setembro',
       ),
     ),
     Marker(
-      markerId: MarkerId('lindolfo'),
-      position: LatLng(-5.0890, -42.8010),
+      markerId: MarkerId('Teatro torquato Neto'),
+      position: LatLng(-5.090059612152944, -42.81355610273296),
       infoWindow: InfoWindow(
-        title: 'Estádio Lindolfo Monteiro',
-        snippet: 'Estádio Municipal Lindolfo Monteiro',
+        title: 'Teatro torquato Neto',
       ),
     ),
   ];

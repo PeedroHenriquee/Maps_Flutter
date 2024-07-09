@@ -116,8 +116,8 @@ class _MyHomePageState extends State<MyHomePage> {
             const SizedBox(width: 10),
             Image.asset(
               'images/turista.png',
-              width: 20,
-              height: 20,
+              width: 40,
+              height: 40,
             ),
           ],
         ),

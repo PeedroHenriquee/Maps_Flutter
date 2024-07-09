@@ -27,20 +27,28 @@ class _CinemaPageState extends State<CinemaPage> {
   );
 
   final List<Marker> _markers = <Marker>[
-    Marker(
-      markerId: MarkerId('albertao'),
-      position: LatLng(-5.1133787, -42.7936924),
+   Marker(
+      markerId: MarkerId('Teresina Shopping'),
+      position: LatLng(-5.084161796608015, -42.790133521898284),
       infoWindow: InfoWindow(
-        title: 'Estádio Albertão',
-        snippet: 'Estádio Governador Alberto Tavares Silva',
+        title: 'Teresina Shopping',
+      
       ),
     ),
     Marker(
-      markerId: MarkerId('lindolfo'),
-      position: LatLng(-5.0890, -42.8010),
+      markerId: MarkerId('Riverside Shopping'),
+      position: LatLng(-5.0785526123054785, -42.79473484730466),
       infoWindow: InfoWindow(
-        title: 'Estádio Lindolfo Monteiro',
-        snippet: 'Estádio Municipal Lindolfo Monteiro',
+        title: 'Riverside Shopping',
+      
+      ),
+    ),
+    Marker(
+      markerId: MarkerId('Shopping Rio Poty'),
+      position: LatLng(-5.075742551325997, -42.801132057409795),
+      infoWindow: InfoWindow(
+        title: 'Shopping Rio Poty',
+      
       ),
     ),
   ];

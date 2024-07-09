@@ -28,7 +28,7 @@ class MapSampleState extends State<MapSample> {
   final List<Marker> _markers = <Marker>[
     Marker(
       markerId: MarkerId('albertao'),
-      position: LatLng(-5.1133787, -42.7936924),
+      position: LatLng(-5.11601263990939, -42.793021815912724),
       infoWindow: InfoWindow(
         title: 'Estádio Albertão',
         snippet: 'Estádio Governador Alberto Tavares Silva',
@@ -36,7 +36,7 @@ class MapSampleState extends State<MapSample> {
     ),
     Marker(
       markerId: MarkerId('lindolfo'),
-      position: LatLng(-5.0890, -42.8010),
+      position: LatLng(-5.0848379874339695, -42.8210229962941),
       infoWindow: InfoWindow(
         title: 'Estádio Lindolfo Monteiro',
         snippet: 'Estádio Municipal Lindolfo Monteiro',

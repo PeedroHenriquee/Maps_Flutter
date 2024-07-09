@@ -28,19 +28,17 @@ class _HotelPageState extends State<HotelPage> {
 
   final List<Marker> _markers = <Marker>[
     Marker(
-      markerId: MarkerId('albertao'),
+      markerId: MarkerId('Metropolitan hotel'),
       position: LatLng(-5.1133787, -42.7936924),
       infoWindow: InfoWindow(
-        title: 'Estádio Albertão',
-        snippet: 'Estádio Governador Alberto Tavares Silva',
+        title: 'Metropolitan hotel',
       ),
     ),
     Marker(
-      markerId: MarkerId('lindolfo'),
-      position: LatLng(-5.0890, -42.8010),
+      markerId: MarkerId('Lis hotel'),
+      position: LatLng(-5.0901659815049305, -42.80994012047207),
       infoWindow: InfoWindow(
-        title: 'Estádio Lindolfo Monteiro',
-        snippet: 'Estádio Municipal Lindolfo Monteiro',
+        title: 'Lis hotel',
       ),
     ),
   ];

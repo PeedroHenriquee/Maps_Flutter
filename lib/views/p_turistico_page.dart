@@ -27,19 +27,17 @@ class TuristicoPageState extends State<TuristicoPage> {
 
   final List<Marker> _markers = <Marker>[
     Marker(
-      markerId: MarkerId('albertao'),
-      position: LatLng(-5.1133787, -42.7936924),
+      markerId: MarkerId('Ponte Estaiada'),
+      position: LatLng(-5.068953513781496, -42.80172242328654),
       infoWindow: InfoWindow(
-        title: 'Estádio Albertão',
-        snippet: 'Estádio Governador Alberto Tavares Silva',
+        title: 'Ponte Estaiada',
       ),
     ),
     Marker(
-      markerId: MarkerId('lindolfo'),
-      position: LatLng(-5.0890, -42.8010),
+      markerId: MarkerId('parque poticabana'),
+      position: LatLng(-5.084731161195657, -42.7893448554136),
       infoWindow: InfoWindow(
-        title: 'Estádio Lindolfo Monteiro',
-        snippet: 'Estádio Municipal Lindolfo Monteiro',
+        title: 'parque poticabana',
       ),
     ),
   ];

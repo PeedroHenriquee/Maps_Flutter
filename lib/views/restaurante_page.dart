@@ -27,19 +27,17 @@ class RestaurantePageState extends State<RestaurantePage> {
 
   final List<Marker> _markers = <Marker>[
     Marker(
-      markerId: MarkerId('albertao'),
-      position: LatLng(-5.1133787, -42.7936924),
+      markerId: MarkerId('Restaurante Outback'),
+      position: LatLng(-5.076229948424042, -42.80238703722739),
       infoWindow: InfoWindow(
-        title: 'Estádio Albertão',
-        snippet: 'Estádio Governador Alberto Tavares Silva',
+        title: 'Restaurante Outback',
       ),
     ),
     Marker(
-      markerId: MarkerId('lindolfo'),
-      position: LatLng(-5.0890, -42.8010),
+      markerId: MarkerId('Coco Bambu'),
+      position: LatLng(-5.069552065628405, -42.78793580427467),
       infoWindow: InfoWindow(
-        title: 'Estádio Lindolfo Monteiro',
-        snippet: 'Estádio Municipal Lindolfo Monteiro',
+        title: 'Coco Bambu',
       ),
     ),
   ];
